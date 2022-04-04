@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragments.GameFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="12"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2">
+
+            <TextView
+                android:id="@+id/textTurn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Turn 0"
+                android:padding="12dp"
+                android:textSize="36sp"></TextView>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/textWin_O"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="O: 0"
+                android:textColor="#0037FF"
+                android:textSize="24sp">
+            </TextView>
+            <TextView
+                android:id="@+id/textWin_X"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="X: 0"
+                android:textColor="#FF0000"
+                android:textSize="24sp"
+                android:layout_marginLeft="40dp">
+            </TextView>
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="7"
+            android:padding="20dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/boardGame"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_centerInParent="true">
+            </androidx.recyclerview.widget.RecyclerView>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+            <Button
+                android:id="@+id/resetBtn"
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:textSize="20sp"
+                android:layout_centerInParent="true"
+                android:text="Reset">
+            </Button>
+        </RelativeLayout>
+    </LinearLayout>
+
+
+</FrameLayout>

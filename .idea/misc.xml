@@ -3,6 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/After/Desktop/mobileTreeT/tictactoeonline/app/src/main/res/drawable/bg_cell_boardgame.xml" value="0.3828125" />
+        <entry key="..\:/Users/After/Desktop/mobileTreeT/tictactoeonline/app/src/main/res/layout/activity_game.xml" value="0.2658514492753623" />
+        <entry key="..\:/Users/After/Desktop/mobileTreeT/tictactoeonline/app/src/main/res/layout/activity_main.xml" value="0.27355072463768115" />
+        <entry key="..\:/Users/After/Desktop/mobileTreeT/tictactoeonline/app/src/main/res/layout/cell.xml" value="0.27355072463768115" />
+        <entry key="..\:/Users/After/Desktop/mobileTreeT/tictactoeonline/app/src/main/res/layout/fragment_game.xml" value="0.27355072463768115" />
+        <entry key="..\:/Users/After/Desktop/mobileTreeT/tictactoeonline/app/src/main/res/layout/fragment_start.xml" value="0.33" />
         <entry key="..\:/Users/Incrusioz/AndroidStudioProjects/tictactoe2/app/src/main/res/layout/activity_login.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Incrusioz/AndroidStudioProjects/tictactoe2/app/src/main/res/layout/activity_main.xml" value="0.24365942028985507" />
         <entry key="..\:/Users/Incrusioz/AndroidStudioProjects/tictactoe2/app/src/main/res/layout/activity_register.xml" value="0.264" />

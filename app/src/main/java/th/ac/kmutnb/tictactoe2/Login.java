@@ -39,10 +39,10 @@ public class Login extends AppCompatActivity {
 
                 if(Usertxt.isEmpty()||Passtxt.isEmpty()){
                     Toast.makeText(getApplication(),"Please enter Username or Password",Toast.LENGTH_LONG).show();
-                    Log.i(TAG,"KUY");
+                    Log.i(TAG,"Test0");
                 }
                 else{
-                    Log.i(TAG,"KUY2");
+                    Log.i(TAG,"Test1");
                     databaseReference.child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
