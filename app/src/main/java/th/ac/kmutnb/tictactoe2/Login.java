@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,6 +23,9 @@ import com.google.firebase.database.ValueEventListener;
 public class Login extends AppCompatActivity {
     private static final String TAG = "my_app";
     DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReferenceFromUrl("https://tictactoe-6a7e1-default-rtdb.firebaseio.com/");
+    private static final String Shared_Name="mypref";
+    private static final String KEY_NAME="name";
+    private static final String KEY_PASS="pass";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +34,14 @@ public class Login extends AppCompatActivity {
         EditText Password=findViewById(R.id.Password);
         Button LoginBtn=findViewById(R.id.Loginbtn);
         TextView Register=findViewById(R.id.Registertxt);
+
+        SharedPreferences sharedPreferences=getSharedPreferences(Shared_Name,MODE_PRIVATE);
+        String name =sharedPreferences.getString(KEY_NAME,null);
+
+        if(name != null){
+            startActivity(new Intent(Login.this,MainActivity.class));
+        }
+
 
         LoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,8 +64,13 @@ public class Login extends AppCompatActivity {
 
                                 if(getpass.equals(Passtxt)){
                                     Toast.makeText(getApplication(), "Login Success", Toast.LENGTH_LONG).show();
+
+                                    SharedPreferences.Editor editor=sharedPreferences.edit();
+                                    editor.putString(KEY_NAME,Usertxt);
+                                    editor.putString(KEY_PASS,Passtxt);
+                                    editor.apply();
+
                                     startActivity(new Intent(Login.this,MainActivity.class));
-                                    finish();
                                 }
                                 else{
                                     Toast.makeText(getApplication(), "Wrong Password", Toast.LENGTH_LONG).show();
