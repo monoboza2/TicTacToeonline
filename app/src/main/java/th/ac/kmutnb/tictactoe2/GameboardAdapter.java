@@ -19,15 +19,30 @@ import th.ac.kmutnb.tictactoe2.Fragments.GameFragment;
 
 public class GameboardAdapter extends RecyclerView.Adapter<GameboardAdapter.ViewHolder> {
     private Context context ;
-    private ArrayList<Bitmap> arrBms;
-    private Bitmap bmX, bmO;
-    private Animation anim_x_o ;
+    private ArrayList<Bitmap> arrBms , arrStrokes;
+    private Bitmap bmX, bmO, draw;
+    private Animation anim_x_o , anim_stroke , anim_win ;
+    private String winCharacter = "o";
 
     public GameboardAdapter(Context context, ArrayList<Bitmap> arrBms) {
         this.context = context;
         this.arrBms = arrBms;
         bmO = BitmapFactory.decodeResource(context.getResources(),R.drawable.o);
         bmX = BitmapFactory.decodeResource(context.getResources(),R.drawable.x);
+        draw = BitmapFactory.decodeResource(context.getResources(),R.drawable.draw);
+
+        arrStrokes = new ArrayList<>();
+        arrStrokes.add(BitmapFactory.decodeResource(context.getResources(),R.drawable.stroke1));
+        arrStrokes.add(BitmapFactory.decodeResource(context.getResources(),R.drawable.stroke2));
+        arrStrokes.add(BitmapFactory.decodeResource(context.getResources(),R.drawable.stroke3));
+        arrStrokes.add(BitmapFactory.decodeResource(context.getResources(),R.drawable.stroke4));
+        arrStrokes.add(BitmapFactory.decodeResource(context.getResources(),R.drawable.stroke5));
+        arrStrokes.add(BitmapFactory.decodeResource(context.getResources(),R.drawable.stroke6));
+        arrStrokes.add(BitmapFactory.decodeResource(context.getResources(),R.drawable.stroke7));
+        arrStrokes.add(BitmapFactory.decodeResource(context.getResources(),R.drawable.stroke8));
+        anim_stroke = AnimationUtils.loadAnimation(context,R.anim.anim_stroke);
+        GameFragment.img_stroke.setAnimation(anim_stroke);
+        anim_win = AnimationUtils.loadAnimation(context,R.anim.anim_win);
 
     }
 
@@ -45,7 +60,7 @@ public class GameboardAdapter extends RecyclerView.Adapter<GameboardAdapter.View
         holder.img_cell_boardgame.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                if(arrBms.get(position) == null ){
+                if(arrBms.get(position) == null && !checkWin() ){
                     if(GameFragment.turnO){
                         arrBms.set(position,bmO);
                         GameFragment.turnO = false;
@@ -57,10 +72,101 @@ public class GameboardAdapter extends RecyclerView.Adapter<GameboardAdapter.View
                         GameFragment.textTurn.setText("Turn O");
                     }
                     holder.img_cell_boardgame.setAnimation(anim_x_o);
+                    if(checkWin()){
+                        win();
+                    }
                     notifyItemChanged(position);
                 }
             }
         });
+        if(!checkWin()){
+            checkDraw();
+        }
+    }
+
+    private void checkDraw() {
+        int count = 0 ;
+        for( int i=0 ; i<arrBms.size() ; i++ ){
+            if(arrBms.get(i)!=null){
+                count++;
+            }
+        }
+        if(count==9){
+            GameFragment.rl_win.setVisibility(View.VISIBLE);
+            GameFragment.rl_win.setAnimation(anim_win);
+            GameFragment.img_win.setImageBitmap(draw);
+            GameFragment.text_win.setText("draw");
+        }
+    }
+
+    private void win() {
+        GameFragment.img_stroke.startAnimation(anim_stroke);
+        GameFragment.rl_win.setAnimation(anim_win);
+        GameFragment.rl_win.setVisibility(View.VISIBLE);
+        GameFragment.rl_win.startAnimation(anim_win);
+        if(winCharacter.equals("o")){
+            GameFragment.img_win.setImageBitmap(bmO);
+            GameActivity.scoreO++;
+            GameFragment.text_win_o.setText("O: "+GameActivity.scoreO);
+        }
+        else{
+            GameFragment.img_win.setImageBitmap(bmX);
+            GameActivity.scoreX++;
+            GameFragment.text_win_x.setText("X: "+GameActivity.scoreX);
+        }
+        GameFragment.text_win.setText("win");
+    }
+    private boolean checkWin() {
+        if(arrBms.get(0) == arrBms.get(3) && arrBms.get(3) == arrBms.get(6) && arrBms.get(0)!=null ){
+            GameFragment.img_stroke.setImageBitmap(arrStrokes.get(2));
+            checkWinCharacter(0);
+            return true;
+        }
+        else if(arrBms.get(1) == arrBms.get(4) && arrBms.get(4) == arrBms.get(7) && arrBms.get(1)!=null ){
+            GameFragment.img_stroke.setImageBitmap(arrStrokes.get(3));
+            checkWinCharacter(1);
+            return true;
+        }
+        else if(arrBms.get(2) == arrBms.get(5) && arrBms.get(5) == arrBms.get(8) && arrBms.get(2)!=null ){
+            GameFragment.img_stroke.setImageBitmap(arrStrokes.get(4));
+            checkWinCharacter(2);
+            return true;
+        }
+        else if(arrBms.get(0) == arrBms.get(1) && arrBms.get(1) == arrBms.get(2) && arrBms.get(0)!=null ){
+            GameFragment.img_stroke.setImageBitmap(arrStrokes.get(5));
+            checkWinCharacter(0);
+            return true;
+        }
+        else if(arrBms.get(3) == arrBms.get(4) && arrBms.get(4) == arrBms.get(5) && arrBms.get(3)!=null ){
+            GameFragment.img_stroke.setImageBitmap(arrStrokes.get(6));
+            checkWinCharacter(3);
+            return true;
+        }
+        else if(arrBms.get(6) == arrBms.get(7) && arrBms.get(7) == arrBms.get(8) && arrBms.get(6)!=null ){
+            GameFragment.img_stroke.setImageBitmap(arrStrokes.get(7));
+            checkWinCharacter(6);
+            return true;
+        }
+        else if(arrBms.get(0) == arrBms.get(4) && arrBms.get(4) == arrBms.get(8) && arrBms.get(0)!=null ){
+            GameFragment.img_stroke.setImageBitmap(arrStrokes.get(1));
+            checkWinCharacter(0);
+            return true;
+        }
+        else if(arrBms.get(2) == arrBms.get(4) && arrBms.get(4) == arrBms.get(6) && arrBms.get(2)!=null ){
+            GameFragment.img_stroke.setImageBitmap(arrStrokes.get(0));
+            checkWinCharacter(2);
+            return true;
+        }
+        return false;
+    }
+
+    private void checkWinCharacter(int i) {
+        if(arrBms.get(i) == bmO ){
+            winCharacter = "o" ;
+        }
+        else{
+            winCharacter = "x" ;
+        }
     }
 
     @Override

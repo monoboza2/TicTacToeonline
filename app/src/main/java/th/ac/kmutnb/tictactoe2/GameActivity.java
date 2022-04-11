@@ -12,6 +12,7 @@ import th.ac.kmutnb.tictactoe2.Fragments.GameFragment;
 
 public class GameActivity extends AppCompatActivity {
 
+    public static int scoreX = 0 , scoreO = 0 ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +24,9 @@ public class GameActivity extends AppCompatActivity {
             public void onClick(View view){
                 GameFragment game = new GameFragment();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                GameActivity.scoreO = 0 ;
+                GameActivity.scoreX = 0 ;
+                transaction.addToBackStack(GameFragment.Tag);
                 transaction.add(R.id.fragmentContainerView,game,"Test game fragment");
                 transaction.commit();
             }

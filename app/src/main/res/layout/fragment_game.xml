@@ -62,6 +62,14 @@
                 android:layout_height="300dp"
                 android:layout_centerInParent="true">
             </androidx.recyclerview.widget.RecyclerView>
+            <ImageView
+                android:id="@+id/img_stroke"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:scaleType="fitXY"
+                android:layout_centerInParent="true">
+
+            </ImageView>
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"
@@ -79,6 +87,67 @@
             </Button>
         </RelativeLayout>
     </LinearLayout>
-
+    <RelativeLayout
+        android:id="@+id/rl_win"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible">
+        <ImageView
+            android:background="#ffffff"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.8">
+        </ImageView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:weightSum="12">
+            <ImageView
+                android:id="@+id/img_win"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/o">
+            </ImageView>
+            <TextView
+                android:id="@+id/textWin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="win"
+                android:textSize="75sp"
+                android:textColor="#03A9F4"
+                android:textStyle="bold">
+            </TextView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:weightSum="6">
+                <Button
+                    android:id="@+id/btn_again"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="again"
+                    android:textSize="20sp"
+                    android:textAllCaps="false">
+                </Button>
+                <View
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content">
+                </View>
+                <Button
+                    android:id="@+id/btn_home"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="home"
+                    android:textSize="20sp"
+                    android:textAllCaps="false">
+                </Button>
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
 
 </FrameLayout>
