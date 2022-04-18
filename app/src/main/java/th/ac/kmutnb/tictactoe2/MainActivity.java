@@ -53,4 +53,9 @@ public class MainActivity extends AppCompatActivity {
 //        FragmentTransaction transaction =
 //    }
 
+    public void Multiplayerbtn(View view){
+        Toast.makeText(getApplication(), "on Multi play", Toast.LENGTH_LONG).show();
+        startActivity(new Intent(MainActivity.this,MultiplayerActivity.class));
+    }
+
 }

@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Tictactoe2">
         <activity
+            android:name=".OnlineActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MultiplayerActivity"
+            android:exported="false" />
+        <activity
             android:name=".GameActivity"
             android:exported="false" />
         <activity
