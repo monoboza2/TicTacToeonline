@@ -1,5 +1,6 @@
 package th.ac.kmutnb.tictactoe2.Fragments;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 
@@ -16,8 +17,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Random;
 
+import th.ac.kmutnb.tictactoe2.GameActivity;
 import th.ac.kmutnb.tictactoe2.GameboardAdapter;
+import th.ac.kmutnb.tictactoe2.MainActivity;
 import th.ac.kmutnb.tictactoe2.R;
 
 public class GameFragment extends Fragment {
@@ -26,7 +30,7 @@ public class GameFragment extends Fragment {
     private GameboardAdapter gameboardAdapter;
     public static boolean turnO = true;
     public static TextView textTurn , text_win_x , text_win_o , text_win;
-    private Button btn_reset , btn_again , btn_home ;
+    private Button btn_again , btn_home ;
     public static ImageView img_stroke , img_win;
     public static RelativeLayout rl_win;
     public static String Tag = GameFragment.class.getName();
@@ -37,7 +41,6 @@ public class GameFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_game, container, false);
         rv_boardgame = view.findViewById(R.id.boardGame);
         textTurn = view.findViewById(R.id.textTurn);
-        btn_reset = view.findViewById(R.id.resetBtn);
         btn_again = view.findViewById(R.id.btn_again);
         btn_home = view.findViewById(R.id.btn_home);
 
@@ -55,12 +58,6 @@ public class GameFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(),3);
         rv_boardgame.setLayoutManager(layoutManager);
         rv_boardgame.setAdapter(gameboardAdapter);
-        btn_reset.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                reset();
-            }
-        });
         btn_again.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,11 +70,23 @@ public class GameFragment extends Fragment {
             public void onClick(View view) {
                 reset();
                 getFragmentManager().popBackStack();
+                Intent itn = new Intent( getActivity(),MainActivity.class);
+                startActivity(itn);
+                getActivity().finish();
             }
         });
         return view ;
     }
-    private void reset(){
+    public void surrender(){
+        if(turnO){
+            gameboardAdapter.winCharacter = "x" ;
+        }
+        else {
+            gameboardAdapter.winCharacter = "o" ;
+        }
+        gameboardAdapter.win();
+    }
+    public void reset(){
         ArrayList<Bitmap> arrBms = new ArrayList<>();
         for(int i=0;i<9;i++){
             arrBms.add(null);

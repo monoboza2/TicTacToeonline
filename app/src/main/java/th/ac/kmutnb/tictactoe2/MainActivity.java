@@ -44,18 +44,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    public void onGameActivity(View view){
+    public void SinglePlayerBtn(View view){
         Toast.makeText(getApplication(), "on Single play", Toast.LENGTH_LONG).show();
-        startActivity(new Intent(MainActivity.this,GameActivity.class));
+        Intent SinglePlayer = new Intent(MainActivity.this,GameActivity.class);
+        SinglePlayer.putExtra("gameMode",0);
+        startActivity(SinglePlayer);
     }
-//
-//    public void onSingle(View view){
-//        FragmentTransaction transaction =
-//    }
-
-    public void Multiplayerbtn(View view){
+    public void MultiPlayerBtn(View view){
         Toast.makeText(getApplication(), "on Multi play", Toast.LENGTH_LONG).show();
-        startActivity(new Intent(MainActivity.this,MultiplayerActivity.class));
+        Intent MultiPlayer = new Intent(MainActivity.this,GameActivity.class);
+        MultiPlayer.putExtra("gameMode",1);
+        startActivity(MultiPlayer);
     }
 
 }

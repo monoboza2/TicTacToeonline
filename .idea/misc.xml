@@ -4,6 +4,14 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/After/Desktop/All-Data/Mobile project/tictactoeonline/app/src/main/res/layout/fragment_game.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/After/Desktop/All-Data/Mobile/tictactoeonline/app/src/main/res/drawable/bg_cell_boardgame.xml" value="0.22135416666666666" />
+        <entry key="..\:/Users/After/Desktop/All-Data/Mobile/tictactoeonline/app/src/main/res/layout/activity_game.xml" value="0.33" />
+        <entry key="..\:/Users/After/Desktop/All-Data/Mobile/tictactoeonline/app/src/main/res/layout/activity_main.xml" value="0.26721014492753625" />
+        <entry key="..\:/Users/After/Desktop/All-Data/Mobile/tictactoeonline/app/src/main/res/layout/activity_singleplayer.xml" value="0.26721014492753625" />
+        <entry key="..\:/Users/After/Desktop/All-Data/Mobile/tictactoeonline/app/src/main/res/layout/cell.xml" value="0.2608695652173913" />
+        <entry key="..\:/Users/After/Desktop/All-Data/Mobile/tictactoeonline/app/src/main/res/layout/fragment_game.xml" value="0.5" />
+        <entry key="..\:/Users/After/Desktop/All-Data/Mobile/tictactoeonline/app/src/main/res/layout/fragment_start.xml" value="0.2608695652173913" />
+        <entry key="..\:/Users/After/Desktop/All-Data/Mobile/tictactoeonline/app/src/main/res/layout/surrender.xml" value="0.33" />
         <entry key="..\:/Users/After/Desktop/mobileTreeT/tictactoeonline/app/src/main/res/drawable/bg_cell_boardgame.xml" value="0.3828125" />
         <entry key="..\:/Users/After/Desktop/mobileTreeT/tictactoeonline/app/src/main/res/layout/activity_game.xml" value="0.2658514492753623" />
         <entry key="..\:/Users/After/Desktop/mobileTreeT/tictactoeonline/app/src/main/res/layout/activity_main.xml" value="0.27355072463768115" />
