@@ -57,4 +57,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(MultiPlayer);
     }
 
+    public void OnlineBtn(View view){
+        Toast.makeText(getApplication(), "on Multi play", Toast.LENGTH_LONG).show();
+        Intent Online = new Intent(MainActivity.this,MultiplayerActivity.class);
+        startActivity(Online);
+    }
+
 }

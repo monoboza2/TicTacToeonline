@@ -15,7 +15,7 @@
             android:name=".SingleplayerActivity"
             android:exported="false" />
         <activity
-            android:name=".OnlineActivity"
+            android:name=".Test"
             android:exported="false" />
         <activity
             android:name=".MultiplayerActivity"
