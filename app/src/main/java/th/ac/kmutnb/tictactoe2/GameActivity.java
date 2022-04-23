@@ -23,6 +23,10 @@ import java.util.List;
 import th.ac.kmutnb.tictactoe2.Fragments.GameFragment;
 
 public class GameActivity extends AppCompatActivity {
+    //----------------------------------------------
+    // Online Mode Setting
+    //----------------------------------------------
+
 
     public static int scoreX = 0 , scoreO = 0 , gameMode = 0 ;
     public static GameFragment game = null;

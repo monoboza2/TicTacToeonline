@@ -1,6 +1,7 @@
 package th.ac.kmutnb.tictactoe2;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
@@ -17,14 +18,19 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import th.ac.kmutnb.tictactoe2.Fragments.GameFragment;
 
 public class GameboardAdapter extends RecyclerView.Adapter<GameboardAdapter.ViewHolder> {
     private Context context ;
-    private ArrayList<Bitmap> arrBms , arrStrokes, arrBmTest;
+    static public ArrayList<Bitmap> arrBms , arrStrokes, arrBmTest;
     private Bitmap bmX, bmO, draw;
     private Animation anim_x_o , anim_stroke , anim_win ;
     public String winCharacter = "o";
@@ -50,7 +56,6 @@ public class GameboardAdapter extends RecyclerView.Adapter<GameboardAdapter.View
         anim_stroke = AnimationUtils.loadAnimation(context,R.anim.anim_stroke);
         GameFragment.img_stroke.setAnimation(anim_stroke);
         anim_win = AnimationUtils.loadAnimation(context,R.anim.anim_win);
-
     }
 
     @NonNull
@@ -65,16 +70,33 @@ public class GameboardAdapter extends RecyclerView.Adapter<GameboardAdapter.View
         holder.img_cell_boardgame.setImageBitmap(arrBms.get(position));
         anim_x_o = AnimationUtils.loadAnimation(context,R.anim.anim_x_o);
         holder.img_cell_boardgame.setAnimation(anim_x_o);
-        if( GameActivity.gameMode == 0 ){
-            playWithComputer(holder, position);
-        }
-        else if( GameActivity.gameMode == 1 ){
-            playWith2Player(holder, position);
+        switch (GameActivity.gameMode){
+            case 0 : playWithComputer(holder, position); break;
+            case 1 : playWith2Player(holder, position); break;
+            case 2 : playWithOnline(holder,position); break;
+            default:playWithComputer(holder,position);
         }
         if(!checkWin()){
             checkDraw();
         }
     }
+    public void playWithOnline(ViewHolder holder,int position){
+        holder.img_cell_boardgame.setOnClickListener(new View.OnClickListener() {
+            //may be bug
+            @Override
+            public void onClick(View view) {
+                if(!MultiplayerActivity.doneBoxes.contains(String.valueOf(position)) && MultiplayerActivity.Playerturn.equals(MultiplayerActivity.PlayeruniqueID)){
+                    //send selected box position & player id to database
+                    MultiplayerActivity.databaseReference.child("turns").child(MultiplayerActivity.ConnectionID).child(String.valueOf(MultiplayerActivity.doneBoxes.size() + 1)).child("box_position").setValue(String.valueOf(position));
+                    MultiplayerActivity.databaseReference.child("turns").child(MultiplayerActivity.ConnectionID).child(String.valueOf(MultiplayerActivity.doneBoxes.size() + 1)).child("player_id").setValue(MultiplayerActivity.PlayeruniqueID);
+
+                    //change player turn
+                    MultiplayerActivity.Playerturn = MultiplayerActivity.OpponentuniqueID ;
+                }
+            }
+        });
+    }
+
     private void playWith2Player(ViewHolder holder, int position) {
         holder.img_cell_boardgame.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -336,11 +358,6 @@ public class GameboardAdapter extends RecyclerView.Adapter<GameboardAdapter.View
         }
     }
 
-    private void robot(){
-        Random random = new Random();
-        int randomValue = random.nextInt(9);
-    }
-
     public ArrayList<Bitmap> getArrBms() {
         return arrBms;
     }
@@ -348,4 +365,5 @@ public class GameboardAdapter extends RecyclerView.Adapter<GameboardAdapter.View
     public void setArrBms(ArrayList<Bitmap> arrBms) {
         this.arrBms = arrBms;
     }
+
 }
