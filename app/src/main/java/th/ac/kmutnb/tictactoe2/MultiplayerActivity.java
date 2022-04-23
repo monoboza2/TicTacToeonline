@@ -103,103 +103,134 @@ public class MultiplayerActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences=getSharedPreferences(Shared_Name,MODE_PRIVATE);
         String name =sharedPreferences.getString(KEY_NAME,null);
 
-        databaseReference.child("conections").addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child("connections").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(!opponentfound){
+                    Log.i("hello","snapshot");
 
+                    //if opponent found or not ?:if not then look for the opponent
                     if(snapshot.hasChildren()){
+                        //check all connection
+                        for(DataSnapshot connections : snapshot.getChildren()){
 
-                        for(DataSnapshot conections:snapshot.getChildren()){
-                            String conId=conections.getKey();
-                            int getplayerCount= (int)conections.getChildrenCount();
+                            //get connection id
+                            String conId = connections.getKey();
 
+                            //2 players or 1 player ?
+                            int getPlayerCount = (int)connections.getChildrenCount();
+
+                            //after created new connection and waiting
                             if(status.equals("waiting")){
-                                if(getplayerCount==2){
-                                    Playerturn=PlayeruniqueID;
+                                Log.i("hello","waiting");
+                                if(getPlayerCount == 2){
+                                    Playerturn = PlayeruniqueID;
+//                                    applyPlayerturn(Playerturn);
                                     startActivity(new Intent(MultiplayerActivity.this,Test.class));
-//                                    applyPlayerturn( Playerturn);
 
-                                    boolean Playerfound =false;
+                                    //true when found
+                                    boolean playerFound = false ;
 
-                                    for(DataSnapshot players:conections.getChildren()){
-                                        String getPlayeruniqueID =players.getKey();
+                                    //getting players connection
+                                    for(DataSnapshot players : connections.getChildren()){
+                                        String getPlayerUniqueId = players.getKey();
 
-                                        if(getPlayeruniqueID.equals(PlayeruniqueID)){
-                                            Playerfound=true;
+                                        //if player id match with user created connection
+                                        if(getPlayerUniqueId.equals(PlayeruniqueID)){
+                                            playerFound = true;
                                         }
-                                        else if(Playerfound){
-                                            String getOpponentPlayername=players.child("player_name").getValue(String.class);
-                                            OpponentuniqueID=players.getKey();
+                                        else if(playerFound){
+                                            String getOpponentPlayerName = players.child("player_name").getValue(String.class);
+                                            OpponentuniqueID = players.getKey();
 
-                                            ConnectionID=conId;
-                                            opponentfound=true;
+                                            //set playername to TextView
+//                                            player2TV.setText(getOpponentPlayerName);
 
+                                            //assigning connection id
+                                            ConnectionID = conId;
+                                            opponentfound = true;
+
+                                            //adding turn and won listener to database
                                             databaseReference.child("turns").child(ConnectionID).addValueEventListener(turnEventListener);
                                             databaseReference.child("won").child(ConnectionID).addValueEventListener(wonEventListener);
 
+                                            //hide progress
                                             if(progressDialog.isShowing()){
                                                 progressDialog.dismiss();
                                             }
-                                            databaseReference.child("conections").removeEventListener(this);
 
-                                            break;
+                                            //remove connection database
+                                            databaseReference.child("connections").removeEventListener(this);
                                         }
                                     }
                                 }
-                                //check found or not
-                                if(!opponentfound && status.equals("waiting")){
-
-                                    String connectionUniqueID=String.valueOf(System.currentTimeMillis());
-
-                                    snapshot.child(connectionUniqueID).child(PlayeruniqueID).child("player_name").getRef().setValue(name);
-
-                                    status="waiting";
-
-                                }
                             }
-                            else{
+                            // case user not created connection
+                            else {
+                                Log.i("hello","case user not created connection");
+                                //if connection has 1 player
+                                if(getPlayerCount == 1){
+                                    Log.i("hello","player == 1");
+                                    //add player to connection
+                                    connections.child(PlayeruniqueID).child("player_name").getRef().setValue(name);
 
-                                if(getplayerCount==1){
-                                    conections.child(PlayeruniqueID).child("player_name").getRef().setValue(name);
+                                    //getting both players
+                                    for(DataSnapshot players : connections.getChildren()){
 
-                                    for(DataSnapshot players : conections.getChildren()){
+                                        String getOpponentName = players.child("player_name").getValue(String.class);
+                                        OpponentuniqueID = players.getKey();
 
-                                        String getOpponentPlayername=players.child("player_name").getValue(String.class);
-                                        OpponentuniqueID=players.getKey();
+                                        //first turn will be to who created connection
+                                        Playerturn = OpponentuniqueID;
+//                                        applyPlayerturn(Playerturn);
 
-                                        Playerturn= OpponentuniqueID;
+                                        //set playername to TextView
+//                                            player2TV.setText(getOpponentPlayerName);
 
-//                                        applyPlayerturn();
+                                        //assign connection id
+                                        ConnectionID = conId;
+                                        opponentfound = true;
 
-                                        /// settext
+                                        //adding turn and won listener to database
+                                        databaseReference.child("turns").child(ConnectionID).addValueEventListener(turnEventListener);
+                                        databaseReference.child("won").child(ConnectionID).addValueEventListener(wonEventListener);
 
-                                        ConnectionID=conId;
-                                        opponentfound=true;
+                                        //hide progress
+                                        if(progressDialog.isShowing()){
+                                            progressDialog.dismiss();
+                                        }
+
+                                        //remove connection database
+                                        databaseReference.child("connections").removeEventListener(this);
+
+                                        break;
                                     }
                                 }
                             }
                         }
+                        // if opponent is not found and user is not waiting then create new connection
+                        if(!opponentfound && !status.equals("waiting")){
+                            Log.i("hello","!opponent && !waiting");
+                            //generate id connection
+                            String connectionUniqueId = String.valueOf(System.currentTimeMillis());
+
+                            //add first player to connection and waiting
+                            snapshot.child(connectionUniqueId).child(PlayeruniqueID).child("player_name").getRef().setValue(name);
+
+                            status="waiting";
+                        }
                     }
-                }
-                else{
-                    String connectionUniqueID=String.valueOf(System.currentTimeMillis());
+                    //if no connection on database : create new connection
+                    else{
+                        Log.i("hello","!snapshot");
+                        //generate id connection
+                        String connectionUniqueId = String.valueOf(System.currentTimeMillis());
 
-                    snapshot.child(connectionUniqueID).child(PlayeruniqueID).child("player_name").getRef().setValue(name);
+                        //add first player to connection and waiting
+                        snapshot.child(connectionUniqueId).child(PlayeruniqueID).child("player_name").getRef().setValue(name);
 
-                    status="waiting";
-//                    int i=0;
-//                    while(true){
-//                        if(i==50000){
-//                            Log.i(TAG, String.valueOf(i));
-//                            break;
-//                        }
-//                        Log.i(TAG, String.valueOf(i));
-//                        i++;
-//                    }
-//                    Toast.makeText(getApplication(), "Player not Found", Toast.LENGTH_LONG).show();
-//                    startActivity(new Intent(MultiplayerActivity.this,MainActivity.class));
-//                    finish();
+                        status="waiting";
+                    }
                 }
             }
 
