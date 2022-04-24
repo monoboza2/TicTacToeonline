@@ -18,6 +18,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
@@ -31,11 +33,12 @@ import th.ac.kmutnb.tictactoe2.Fragments.GameFragment;
 public class GameboardAdapter extends RecyclerView.Adapter<GameboardAdapter.ViewHolder> {
     private Context context ;
     static public ArrayList<Bitmap> arrBms , arrStrokes, arrBmTest;
-    private Bitmap bmX, bmO, draw;
-    private Animation anim_x_o , anim_stroke , anim_win ;
-    public String winCharacter = "o";
+    public static Bitmap bmX, bmO, draw;
+    public static Animation anim_x_o , anim_stroke , anim_win ;
+    public static String winCharacter = "o";
     private boolean checkMax = true;
     private int depth = 0;
+    public static int positionOnline = 78 ;
 
     public GameboardAdapter(Context context, ArrayList<Bitmap> arrBms) {
         this.context = context;
@@ -80,22 +83,50 @@ public class GameboardAdapter extends RecyclerView.Adapter<GameboardAdapter.View
             checkDraw();
         }
     }
+
+
     public void playWithOnline(ViewHolder holder,int position){
+        MultiplayerActivity.databaseReference.child("board").child(MultiplayerActivity.ConnectionID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.getValue(Integer.class) >= 0 && snapshot.getValue(Integer.class) <=8){
+                    positionOnline = snapshot.getValue(Integer.class) ;
+                    if(arrBms.get(positionOnline)==null&&!checkWin() && (positionOnline>=0 && positionOnline <= 8)    ){
+                        if (MultiplayerActivity.Playerturn.equals(MultiplayerActivity.PlayerNameO)){
+                            arrBms.set(positionOnline,bmO);
+                            MultiplayerActivity.Playerturn = MultiplayerActivity.PlayerNameX;
+                        }
+                        else{
+                            arrBms.set(positionOnline,bmX);
+                            MultiplayerActivity.Playerturn = MultiplayerActivity.PlayerNameO;
+                        }
+                        notifyItemChanged(positionOnline);
+                        if (checkWin()){
+                            win();
+                        }
+
+                        MultiplayerActivity.databaseReference.child("turn").child(MultiplayerActivity.ConnectionID).setValue(MultiplayerActivity.Playerturn);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         holder.img_cell_boardgame.setOnClickListener(new View.OnClickListener() {
-            //may be bug
             @Override
             public void onClick(View view) {
-                if(!MultiplayerActivity.doneBoxes.contains(String.valueOf(position)) && MultiplayerActivity.Playerturn.equals(MultiplayerActivity.PlayeruniqueID)){
-                    //send selected box position & player id to database
-                    MultiplayerActivity.databaseReference.child("turns").child(MultiplayerActivity.ConnectionID).child(String.valueOf(MultiplayerActivity.doneBoxes.size() + 1)).child("box_position").setValue(String.valueOf(position));
-                    MultiplayerActivity.databaseReference.child("turns").child(MultiplayerActivity.ConnectionID).child(String.valueOf(MultiplayerActivity.doneBoxes.size() + 1)).child("player_id").setValue(MultiplayerActivity.PlayeruniqueID);
-
-                    //change player turn
-                    MultiplayerActivity.Playerturn = MultiplayerActivity.OpponentuniqueID ;
+                if(MultiplayerActivity.Playerturn.equals(MultiplayerActivity.PlayerName)){
+                    MultiplayerActivity.databaseReference.child("board").child(MultiplayerActivity.ConnectionID).setValue(position);
                 }
             }
         });
+
     }
+
+
 
     private void playWith2Player(ViewHolder holder, int position) {
         holder.img_cell_boardgame.setOnClickListener(new View.OnClickListener() {
@@ -291,8 +322,18 @@ public class GameboardAdapter extends RecyclerView.Adapter<GameboardAdapter.View
             GameFragment.text_win_x.setText(": "+GameActivity.scoreX);
         }
         GameFragment.text_win.setText("win");
+        if(GameActivity.gameMode == 2){
+            MultiplayerActivity.databaseReference.child("score").child(MultiplayerActivity.ConnectionID).child(MultiplayerActivity.PlayerNameO).setValue(GameActivity.scoreO);
+            MultiplayerActivity.databaseReference.child("score").child(MultiplayerActivity.ConnectionID).child(MultiplayerActivity.PlayerNameX).setValue(GameActivity.scoreX);
+            if(winCharacter.equals("o")){
+                MultiplayerActivity.databaseReference.child("score").child(MultiplayerActivity.ConnectionID).child("winner").setValue(MultiplayerActivity.PlayerNameO);
+            }
+            else{
+                MultiplayerActivity.databaseReference.child("score").child(MultiplayerActivity.ConnectionID).child("winner").setValue(MultiplayerActivity.PlayerNameX);
+            }
+        }
     }
-    private boolean checkWin() {
+    public boolean checkWin() {
         if(arrBms.get(0) == arrBms.get(3) && arrBms.get(3) == arrBms.get(6) && arrBms.get(0)!=null ){
             GameFragment.img_stroke.setImageBitmap(arrStrokes.get(2));
             checkWinCharacter(0);
@@ -351,7 +392,7 @@ public class GameboardAdapter extends RecyclerView.Adapter<GameboardAdapter.View
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
-        private ImageView img_cell_boardgame;
+        public ImageView img_cell_boardgame;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             img_cell_boardgame = itemView.findViewById(R.id.img_cell_boardgame);

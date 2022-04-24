@@ -31,6 +31,7 @@ public class GameActivity extends AppCompatActivity {
     public static int scoreX = 0 , scoreO = 0 , gameMode = 0 ;
     public static GameFragment game = null;
     public static String Tag = "Tag GameActivity" ;
+    public static String PlayerNameO = "",PlayerNameX = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +75,12 @@ public class GameActivity extends AppCompatActivity {
         SurrenderYesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GameActivity.game.surrender();
+                if(gameMode == 2){
+                    GameActivity.game.surrenderOnline();
+                }
+                else {
+                    GameActivity.game.surrender();
+                }
                 dialog.dismiss();
             }
         });

@@ -24,6 +24,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import th.ac.kmutnb.tictactoe2.Fragments.GameFragment;
+
 public class MultiplayerActivity extends AppCompatActivity {
     private static final String TAG = "my_app";
     public static DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReferenceFromUrl("https://tictactoe-6a7e1-default-rtdb.firebaseio.com/");
@@ -36,12 +38,15 @@ public class MultiplayerActivity extends AppCompatActivity {
     private String status="matching";
     public static String Playerturn = "";
     public static String ConnectionID="";
+    public static String PlayerNameO = "waiting";
+    public static String PlayerNameX = "waiting";
+    public static String PlayerName = "";
 
     //Winning
     public static final List<int[]> combinationList = new ArrayList<>();
     public static final List<String> doneBoxes = new ArrayList<>();
 
-    ValueEventListener turnEventListener,wonEventListener;
+    public static ValueEventListener turnEventListener,wonEventListener;
 
     //selected boxes by players
     private final String[] boxSelectedBy = {"","","","","","","","",""};
@@ -103,14 +108,13 @@ public class MultiplayerActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences=getSharedPreferences(Shared_Name,MODE_PRIVATE);
         String name =sharedPreferences.getString(KEY_NAME,null);
 
-        databaseReference.child("connections").addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child("connections").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(!opponentfound){
-                    Log.i("hello","snapshot");
-
                     //if opponent found or not ?:if not then look for the opponent
                     if(snapshot.hasChildren()){
+
                         //check all connection
                         for(DataSnapshot connections : snapshot.getChildren()){
 
@@ -122,11 +126,7 @@ public class MultiplayerActivity extends AppCompatActivity {
 
                             //after created new connection and waiting
                             if(status.equals("waiting")){
-                                Log.i("hello","waiting");
                                 if(getPlayerCount == 2){
-                                    Playerturn = PlayeruniqueID;
-//                                    applyPlayerturn(Playerturn);
-                                    startActivity(new Intent(MultiplayerActivity.this,Test.class));
 
                                     //true when found
                                     boolean playerFound = false ;
@@ -142,6 +142,8 @@ public class MultiplayerActivity extends AppCompatActivity {
                                         else if(playerFound){
                                             String getOpponentPlayerName = players.child("player_name").getValue(String.class);
                                             OpponentuniqueID = players.getKey();
+
+                                            Playerturn = PlayeruniqueID;
 
                                             //set playername to TextView
 //                                            player2TV.setText(getOpponentPlayerName);
@@ -159,6 +161,9 @@ public class MultiplayerActivity extends AppCompatActivity {
                                                 progressDialog.dismiss();
                                             }
 
+                                            onMatchPlay(snapshot);
+
+
                                             //remove connection database
                                             databaseReference.child("connections").removeEventListener(this);
                                         }
@@ -167,16 +172,13 @@ public class MultiplayerActivity extends AppCompatActivity {
                             }
                             // case user not created connection
                             else {
-                                Log.i("hello","case user not created connection");
                                 //if connection has 1 player
                                 if(getPlayerCount == 1){
-                                    Log.i("hello","player == 1");
                                     //add player to connection
                                     connections.child(PlayeruniqueID).child("player_name").getRef().setValue(name);
 
                                     //getting both players
                                     for(DataSnapshot players : connections.getChildren()){
-
                                         String getOpponentName = players.child("player_name").getValue(String.class);
                                         OpponentuniqueID = players.getKey();
 
@@ -199,7 +201,17 @@ public class MultiplayerActivity extends AppCompatActivity {
                                         if(progressDialog.isShowing()){
                                             progressDialog.dismiss();
                                         }
+                                        databaseReference.child("connections").addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                onMatchPlay(snapshot);
+                                            }
 
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+
+                                            }
+                                        });
                                         //remove connection database
                                         databaseReference.child("connections").removeEventListener(this);
 
@@ -210,7 +222,6 @@ public class MultiplayerActivity extends AppCompatActivity {
                         }
                         // if opponent is not found and user is not waiting then create new connection
                         if(!opponentfound && !status.equals("waiting")){
-                            Log.i("hello","!opponent && !waiting");
                             //generate id connection
                             String connectionUniqueId = String.valueOf(System.currentTimeMillis());
 
@@ -222,7 +233,6 @@ public class MultiplayerActivity extends AppCompatActivity {
                     }
                     //if no connection on database : create new connection
                     else{
-                        Log.i("hello","!snapshot");
                         //generate id connection
                         String connectionUniqueId = String.valueOf(System.currentTimeMillis());
 
@@ -240,7 +250,7 @@ public class MultiplayerActivity extends AppCompatActivity {
             }
         });
 
-        turnEventListener=new ValueEventListener() {
+        turnEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
@@ -381,6 +391,20 @@ public class MultiplayerActivity extends AppCompatActivity {
             }
         }
         return isPlayerWon;
+    }
+    private  void  onMatchPlay(DataSnapshot snapshot) {
+        PlayerName = snapshot.child(ConnectionID).child(PlayeruniqueID).child("player_name").getValue(String.class);
+        PlayerNameO = snapshot.child(ConnectionID).child(Playerturn).child("player_name").getValue(String.class);
+        if( Playerturn.equals(PlayeruniqueID) ){
+            PlayerNameX = snapshot.child(ConnectionID).child(OpponentuniqueID).child("player_name").getValue(String.class);
+        }
+        else{
+            PlayerNameX = snapshot.child(ConnectionID).child(PlayeruniqueID).child("player_name").getValue(String.class);
+        }
+        Playerturn = PlayerNameO ;
+        Intent Player = new Intent(MultiplayerActivity.this,GameActivity.class);
+        Player.putExtra("gameMode",2);
+        startActivity(Player);
     }
 
 }
