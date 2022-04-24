@@ -32,6 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_marginTop="-40dp"
             android:gravity="center">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -42,14 +43,15 @@
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/CardViewPlayer1"
-                    android:layout_width="100dp"
+                    android:layout_width="130dp"
                     android:layout_height="100dp"
                     app:flow_horizontalAlign="center"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.144"
+                    app:layout_constraintHorizontal_bias="0.15"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/LayoutPlayer1"
@@ -103,11 +105,11 @@
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/CardViewPlayer2"
-                    android:layout_width="100dp"
+                    android:layout_width="130dp"
                     android:layout_height="100dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.852"
+                    app:layout_constraintHorizontal_bias="0.85"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0">
@@ -171,8 +173,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/boardGame"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:layout_centerInParent="true">
+                android:layout_height="300dp">
 
             </androidx.recyclerview.widget.RecyclerView>
 
@@ -180,16 +181,16 @@
                 android:id="@+id/img_stroke"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:layout_centerInParent="true"
                 android:scaleType="fitXY"></ImageView>
 
         </RelativeLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:paddingLeft="10dp"
-            android:paddingRight="10dp"/>
+            android:paddingRight="10dp" />
     </LinearLayout>
     <RelativeLayout
         android:id="@+id/rl_win"

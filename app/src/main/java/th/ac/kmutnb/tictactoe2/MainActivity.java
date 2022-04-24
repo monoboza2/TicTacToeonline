@@ -12,7 +12,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
-import th.ac.kmutnb.tictactoe2.Fragments.GameFragment;
+//import th.ac.kmutnb.tictactoe2.Fragments.GameFragment;
 
 public class MainActivity extends AppCompatActivity {
     private static final String Shared_Name="mypref";
@@ -58,6 +58,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void OnlineBtn(View view){
+        Toast.makeText(getApplication(), "on Multi play", Toast.LENGTH_LONG).show();
+        Intent Online = new Intent(MainActivity.this,MultiplayerActivity.class);
+        startActivity(Online);
+    }
+    public void Leadbtn(View view){
         Toast.makeText(getApplication(), "on Multi play", Toast.LENGTH_LONG).show();
         Intent Online = new Intent(MainActivity.this,MultiplayerActivity.class);
         startActivity(Online);

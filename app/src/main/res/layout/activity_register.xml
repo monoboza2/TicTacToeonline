@@ -6,11 +6,49 @@
     android:layout_height="match_parent"
     tools:context=".Register">
 
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="99dp"
+        android:layout_height="104dp"
+        android:src="@drawable/xo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.992" />
+
+    <ImageView
+        android:id="@+id/imageView11"
+        android:layout_width="99dp"
+        android:layout_height="104dp"
+        android:src="@drawable/xo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.051"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.025" />
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="34dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="28dp"
+        android:src="@drawable/key"
+        app:layout_constraintEnd_toStartOf="@+id/Conpass"
+        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView6" />
+
     <EditText
         android:id="@+id/Email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="188dp"
+        android:layout_marginEnd="50dp"
         android:hint="Email"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,7 +60,9 @@
         android:id="@+id/Regisuser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="28dp"
+        android:layout_marginEnd="50dp"
         android:hint="Username"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,7 +74,9 @@
         android:id="@+id/Regispass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="28dp"
+        android:layout_marginEnd="50dp"
         android:hint="Password"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,7 +88,9 @@
         android:id="@+id/Conpass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="28dp"
+        android:layout_marginEnd="50dp"
         android:hint="Confirmpassword"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
@@ -58,11 +102,48 @@
         android:id="@+id/Regisbtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="125dp"
         android:layout_marginTop="52dp"
-        android:text="Regiter"
+        android:layout_marginEnd="125dp"
+        android:text="Confirm"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Conpass" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="34dp"
+        android:layout_height="44dp"
+        android:src="@drawable/mail"
+        app:layout_constraintBottom_toTopOf="@+id/Regisuser"
+        app:layout_constraintEnd_toStartOf="@+id/Email"
+        app:layout_constraintHorizontal_bias="0.437"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.866" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="34dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="28dp"
+        android:src="@drawable/user"
+        app:layout_constraintBottom_toTopOf="@+id/Regispass"
+        app:layout_constraintEnd_toStartOf="@+id/Regisuser"
+        app:layout_constraintHorizontal_bias="0.437"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView4"
+        app:layout_constraintVertical_bias="0.033" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="34dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="28dp"
+        android:src="@drawable/key"
+        app:layout_constraintEnd_toStartOf="@+id/Regispass"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView5" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
