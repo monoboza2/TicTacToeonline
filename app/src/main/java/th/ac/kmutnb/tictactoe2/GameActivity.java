@@ -31,6 +31,7 @@ public class GameActivity extends AppCompatActivity {
     public static int scoreX = 0 , scoreO = 0 , gameMode = 0 ;
     public static GameFragment game = null;
     public static String Tag = "Tag GameActivity" ;
+    public static String PlayerNameO = "",PlayerNameX = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +58,12 @@ public class GameActivity extends AppCompatActivity {
     public void HomeBtn(View view) {
         GameActivity.game.reset();
         removeFragmentGame();
+        if(gameMode == 2){
+            MultiplayerActivity.databaseReference.child("game").child(MultiplayerActivity.ConnectionID).child("turn").removeEventListener(MultiplayerActivity.turnEventListener);
+            MultiplayerActivity.databaseReference.child("game").child(MultiplayerActivity.ConnectionID).child("score").removeEventListener(MultiplayerActivity.scoreEventListener);
+            MultiplayerActivity.databaseReference.child("connections").child(MultiplayerActivity.ConnectionID).child(MultiplayerActivity.PlayeruniqueID).child("status").setValue("disconnect");
+            MultiplayerActivity.opponentfound = false;
+        }
         startActivity(new Intent(GameActivity.this,MainActivity.class));
         finish();
     }
@@ -74,7 +81,12 @@ public class GameActivity extends AppCompatActivity {
         SurrenderYesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GameActivity.game.surrender();
+                if(gameMode == 2){
+                    GameActivity.game.surrenderOnline();
+                }
+                else {
+                    GameActivity.game.surrender();
+                }
                 dialog.dismiss();
             }
         });
