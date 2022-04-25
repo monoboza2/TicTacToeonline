@@ -2,6 +2,8 @@ package th.ac.kmutnb.tictactoe2;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -53,12 +55,43 @@ public class MultiplayerActivity extends AppCompatActivity {
     //selected boxes by players
     private final String[] boxSelectedBy = {"","","","","","","","",""};
 
+    private List<ConnectionData> list ;
+    RecyclerView recyclerView;
+    ConnectionAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_multiplayer);
         SharedPreferences sharedPreferences=getSharedPreferences(Shared_Name,MODE_PRIVATE);
         String name =sharedPreferences.getString(KEY_NAME,null);
+
+        recyclerView=findViewById(R.id.listRoom);
+        list = new ArrayList();
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        manager.setReverseLayout(true);
+        manager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(manager);
+        recyclerView.setHasFixedSize(true);
+
+        databaseReference.child("connections").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.hasChildren()){
+                    for (DataSnapshot Room : snapshot.getChildren()){
+                        list.add(new ConnectionData(Room.getKey()));
+                    }
+                }
+                adapter=new ConnectionAdapter(list,MultiplayerActivity.this);
+                recyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 
     public void Online(View view){

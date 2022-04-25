@@ -32,41 +32,55 @@
 
     <Button
         android:id="@+id/online"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="238dp"
+        android:layout_height="68dp"
         android:layout_marginStart="125dp"
         android:layout_marginEnd="125dp"
+        android:backgroundTint="#6849C2"
         android:onClick="Online"
-        android:text="Online"
+        android:text="FindMatch"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.393" />
+        app:layout_constraintVertical_bias="0.858" />
 
     <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Online Mode"
-        android:textStyle="bold"
+        android:textColor="#673AB7"
         android:textSize="34sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.115" />
+        app:layout_constraintVertical_bias="0.064" />
 
     <ImageView
         android:id="@+id/imageView15"
-        android:layout_width="273dp"
-        android:layout_height="177dp"
+        android:layout_width="162dp"
+        android:layout_height="61dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.176"
+        app:srcCompat="@drawable/draw" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listRoom"
+        android:layout_width="331dp"
+        android:layout_height="316dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.763"
-        app:srcCompat="@drawable/draw" />
+        app:layout_constraintVertical_bias="0.534" />
 </androidx.constraintlayout.widget.ConstraintLayout>
