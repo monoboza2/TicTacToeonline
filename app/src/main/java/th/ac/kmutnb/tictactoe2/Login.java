@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.nfc.Tag;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -20,8 +21,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.security.Key;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
+
 public class Login extends AppCompatActivity {
+    private static final String ALGORITHM = "AES";
+    private static final String KEY = "1Hbfh667adfDEJ78";
     private static final String TAG = "my_app";
+    public String passkey="";
+    private static String getpass="";
     DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReferenceFromUrl("https://tictactoe-6a7e1-default-rtdb.firebaseio.com/");
     private static final String Shared_Name="mypref";
     private static final String KEY_NAME="name";
@@ -58,9 +68,12 @@ public class Login extends AppCompatActivity {
                     databaseReference.child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-
                             if(snapshot.hasChild(Usertxt)){
-                                String getpass=snapshot.child(Usertxt).child("Password").getValue(String.class);
+                                try {
+                                    getpass=decrypt(snapshot.child(Usertxt).child("Password").getValue(String.class));
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
 
                                 if(getpass.equals(Passtxt)){
                                     Toast.makeText(getApplication(), "Login Success", Toast.LENGTH_LONG).show();
@@ -97,5 +110,22 @@ public class Login extends AppCompatActivity {
                 startActivity(new Intent(Login.this,Register.class));
             }
         });
+    }
+    public static String decrypt(String value) throws Exception
+    {
+        Key key = generateKey();
+        Cipher cipher = Cipher.getInstance(Login.ALGORITHM);
+        cipher.init(Cipher.DECRYPT_MODE, key);
+        byte[] decryptedValue64 = Base64.decode(value, Base64.DEFAULT);
+        byte [] decryptedByteValue = cipher.doFinal(decryptedValue64);
+        String decryptedValue = new String(decryptedByteValue,"utf-8");
+        return decryptedValue;
+
+    }
+
+    private static Key generateKey() throws Exception
+    {
+        Key key = new SecretKeySpec(Login.KEY.getBytes(),Login.ALGORITHM);
+        return key;
     }
 }
