@@ -77,6 +77,7 @@ public class GameFragment extends Fragment {
                 reset();
                 if(GameActivity.gameMode == 2){
                     MultiplayerActivity.Playerturn = MultiplayerActivity.PlayerNameO ;
+
                     MultiplayerActivity.databaseReference.child("game").child(MultiplayerActivity.ConnectionID).child("score").child("winner").setValue("");
                     MultiplayerActivity.databaseReference.child("game").child(MultiplayerActivity.ConnectionID).child("board").setValue(-1);
                     MultiplayerActivity.databaseReference.child("game").child(MultiplayerActivity.ConnectionID).child("turn").setValue(MultiplayerActivity.Playerturn);
@@ -99,6 +100,7 @@ public class GameFragment extends Fragment {
 //                    MultiplayerActivity.databaseReference.child("connections").child(MultiplayerActivity.ConnectionID).getRef().removeValue();
 //                }
 //                catch (Error error){}
+
                 Intent itn = new Intent( getActivity(),MainActivity.class);
                 startActivity(itn);
                 getActivity().finish();

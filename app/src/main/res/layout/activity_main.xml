@@ -6,10 +6,34 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <ImageView
+        android:id="@+id/imageView13"
+        android:layout_width="99dp"
+        android:layout_height="104dp"
+        android:layout_marginEnd="344dp"
+        android:layout_marginBottom="640dp"
+        android:src="@drawable/xo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView12"
+        android:layout_width="99dp"
+        android:layout_height="104dp"
+        android:src="@drawable/xo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.98"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.974" />
+
     <Button
         android:id="@+id/Multiplay"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="100dp"
         android:onClick="MultiPlayerBtn"
         android:text="MULTIPLAYER"
         android:textSize="20sp"
@@ -24,8 +48,8 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TreeT Game"
-        android:textSize="28sp"
+        android:text="ThreeT-Game"
+        android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -43,12 +67,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.976"
-        app:srcCompat="@android:drawable/ic_delete" />
+        app:srcCompat="@drawable/logout" />
 
     <Button
         android:id="@+id/SinglePlayerBtn"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="100dp"
         android:onClick="SinglePlayerBtn"
         android:text="Single"
         android:textSize="20sp"
@@ -61,8 +87,10 @@
 
     <Button
         android:id="@+id/Online"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="100dp"
         android:onClick="OnlineBtn"
         android:text="ONLINE"
         android:textSize="20sp"
@@ -72,5 +100,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.521" />
+
+    <Button
+        android:id="@+id/Lederbord"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="100dp"
+        android:text="Leaderboard"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.639" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

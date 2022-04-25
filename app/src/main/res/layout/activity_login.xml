@@ -6,11 +6,25 @@
     android:layout_height="match_parent"
     tools:context=".Login">
 
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:src="@drawable/xo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.004" />
+
     <EditText
         android:id="@+id/Username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="208dp"
+        android:layout_marginEnd="50dp"
         android:hint="Username"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,7 +36,9 @@
         android:id="@+id/Password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="36dp"
+        android:layout_marginEnd="50dp"
         android:hint="Password"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,7 +50,9 @@
         android:id="@+id/Loginbtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="125dp"
         android:layout_marginTop="52dp"
+        android:layout_marginEnd="125dp"
         android:text="Login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -45,9 +63,9 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="132dp"
+        android:layout_marginStart="72dp"
         android:layout_marginTop="36dp"
-        android:text="TextView"
+        android:text="Have you subscribed yet?"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Loginbtn" />
 
@@ -57,10 +75,56 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
         android:text="Register Now"
+        android:textColor="#2B39B6"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.147"
         app:layout_constraintStart_toEndOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/Loginbtn" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ThreeT-Game"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toTopOf="@+id/Username"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="99dp"
+        android:layout_height="104dp"
+        android:src="@drawable/xo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.98"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.974" />
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="34dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="208dp"
+        android:src="@drawable/user"
+        app:layout_constraintEnd_toStartOf="@+id/Username"
+        app:layout_constraintHorizontal_bias="0.437"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView10"
+        android:layout_width="34dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="36dp"
+        android:src="@drawable/key"
+        app:layout_constraintEnd_toStartOf="@+id/Password"
+        app:layout_constraintHorizontal_bias="0.437"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView8" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

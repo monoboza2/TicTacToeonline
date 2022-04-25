@@ -104,7 +104,6 @@ public class GameboardAdapter extends RecyclerView.Adapter<GameboardAdapter.View
                         if (checkWin()){
                             win();
                         }
-
                         MultiplayerActivity.databaseReference.child("game").child(MultiplayerActivity.ConnectionID).child("turn").setValue(MultiplayerActivity.Playerturn);
                     }
                 }
