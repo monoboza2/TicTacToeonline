@@ -46,7 +46,7 @@ public class MultiplayerActivity extends AppCompatActivity {
     public static final List<int[]> combinationList = new ArrayList<>();
     public static final List<String> doneBoxes = new ArrayList<>();
 
-    public static ValueEventListener turnEventListener,wonEventListener;
+    public static ValueEventListener turnEventListener,wonEventListener, connectionEventListener ,scoreEventListener;
 
     //selected boxes by players
     private final String[] boxSelectedBy = {"","","","","","","","",""};
@@ -100,18 +100,20 @@ public class MultiplayerActivity extends AppCompatActivity {
 
     public void Online(View view){
         ProgressDialog progressDialog=new ProgressDialog(this);
-        progressDialog.setCancelable(false);
+
+        progressDialog.setCancelable(true);
         progressDialog.setMessage("Waiting for Opponent");
         progressDialog.show();
 
         PlayeruniqueID=String.valueOf(System.currentTimeMillis());
         SharedPreferences sharedPreferences=getSharedPreferences(Shared_Name,MODE_PRIVATE);
         String name =sharedPreferences.getString(KEY_NAME,null);
-
-        databaseReference.child("connections").addValueEventListener(new ValueEventListener() {
+        connectionEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Log.i("Online","hello "+opponentfound);
                 if(!opponentfound){
+                    Log.i("Online","hellowwww");
                     //if opponent found or not ?:if not then look for the opponent
                     if(snapshot.hasChildren()){
 
@@ -153,8 +155,8 @@ public class MultiplayerActivity extends AppCompatActivity {
                                             opponentfound = true;
 
                                             //adding turn and won listener to database
-                                            databaseReference.child("turns").child(ConnectionID).addValueEventListener(turnEventListener);
-                                            databaseReference.child("won").child(ConnectionID).addValueEventListener(wonEventListener);
+//                                            databaseReference.child("turns").child(ConnectionID).addValueEventListener(turnEventListener);
+//                                            databaseReference.child("won").child(ConnectionID).addValueEventListener(wonEventListener);
 
                                             //hide progress
                                             if(progressDialog.isShowing()){
@@ -176,6 +178,8 @@ public class MultiplayerActivity extends AppCompatActivity {
                                 if(getPlayerCount == 1){
                                     //add player to connection
                                     connections.child(PlayeruniqueID).child("player_name").getRef().setValue(name);
+                                    connections.child(PlayeruniqueID).child("status").getRef().setValue("connected");
+
 
                                     //getting both players
                                     for(DataSnapshot players : connections.getChildren()){
@@ -194,8 +198,8 @@ public class MultiplayerActivity extends AppCompatActivity {
                                         opponentfound = true;
 
                                         //adding turn and won listener to database
-                                        databaseReference.child("turns").child(ConnectionID).addValueEventListener(turnEventListener);
-                                        databaseReference.child("won").child(ConnectionID).addValueEventListener(wonEventListener);
+//                                        databaseReference.child("turns").child(ConnectionID).addValueEventListener(turnEventListener);
+//                                        databaseReference.child("won").child(ConnectionID).addValueEventListener(wonEventListener);
 
                                         //hide progress
                                         if(progressDialog.isShowing()){
@@ -205,6 +209,7 @@ public class MultiplayerActivity extends AppCompatActivity {
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                                 onMatchPlay(snapshot);
+                                                databaseReference.child("connections").removeEventListener(this);
                                             }
 
                                             @Override
@@ -227,6 +232,7 @@ public class MultiplayerActivity extends AppCompatActivity {
 
                             //add first player to connection and waiting
                             snapshot.child(connectionUniqueId).child(PlayeruniqueID).child("player_name").getRef().setValue(name);
+                            snapshot.child(connectionUniqueId).child(PlayeruniqueID).child("status").getRef().setValue("connected");
 
                             status="waiting";
                         }
@@ -248,98 +254,9 @@ public class MultiplayerActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-        });
-
-        turnEventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    if(dataSnapshot.getChildrenCount()==2){
-
-                        //getting box position selected by user
-                        final int getBoxPosition=Integer.parseInt(dataSnapshot.child("box_position").getValue(String.class));
-
-                        //getting player id selected the box
-                        final String getPlayerId=dataSnapshot.child("player_id").getValue(String.class);
-
-                        //if user has not selected
-                        if(!doneBoxes.contains(String.valueOf(getBoxPosition))){
-                            //select box
-                            doneBoxes.add(String.valueOf(getBoxPosition));
-                            switch (getBoxPosition){
-                                case 1:
-                                    selectBox(GameboardAdapter.arrBms.get(0),getBoxPosition,getPlayerId);
-                                    break;
-                                case 2:
-                                    selectBox(GameboardAdapter.arrBms.get(1),getBoxPosition,getPlayerId);
-                                    break;
-                                case 3:
-                                    selectBox(GameboardAdapter.arrBms.get(2),getBoxPosition,getPlayerId);
-                                    break;
-                                case 4:
-                                    selectBox(GameboardAdapter.arrBms.get(3),getBoxPosition,getPlayerId);
-                                    break;
-                                case 5:
-                                    selectBox(GameboardAdapter.arrBms.get(4),getBoxPosition,getPlayerId);
-                                    break;
-                                case 6:
-                                    selectBox(GameboardAdapter.arrBms.get(5),getBoxPosition,getPlayerId);
-                                    break;
-                                case 7:
-                                    selectBox(GameboardAdapter.arrBms.get(6),getBoxPosition,getPlayerId);
-                                    break;
-                                case 8:
-                                    selectBox(GameboardAdapter.arrBms.get(7),getBoxPosition,getPlayerId);
-                                    break;
-                                case 9:
-                                    selectBox(GameboardAdapter.arrBms.get(8),getBoxPosition,getPlayerId);
-                                    break;
-                                default:;
-                            }
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
         };
-
-        wonEventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                //if user won
-                if(snapshot.hasChild("player_id")){
-                    String getWinPlayerId = snapshot.child("player_id").getValue(String.class);
-                    final WinDialog winDialog;
-                    if(getWinPlayerId.equals(PlayeruniqueID)){
-
-                        //show win
-                        winDialog = new WinDialog(MultiplayerActivity.this,"You won");
-                    }
-                    else{
-
-                        winDialog = new WinDialog(MultiplayerActivity.this,"Opponent won");
-                    }
-                    winDialog.setCancelable(false);
-                    winDialog.show();
-
-                    //remove listener
-                    databaseReference.child("turns").child(ConnectionID).removeEventListener(turnEventListener);
-                    databaseReference.child("won").child(ConnectionID).removeEventListener(wonEventListener);
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        };
+        databaseReference.child("connections").addValueEventListener(connectionEventListener);
     }
-
     private void applyPlayerturn(String PlayeruniqueID2){
         TextView textViewTurn = findViewById(R.id.textTurn);
         if(PlayeruniqueID2.equals(PlayeruniqueID)){
@@ -393,15 +310,21 @@ public class MultiplayerActivity extends AppCompatActivity {
         return isPlayerWon;
     }
     private  void  onMatchPlay(DataSnapshot snapshot) {
-        PlayerName = snapshot.child(ConnectionID).child(PlayeruniqueID).child("player_name").getValue(String.class);
-        PlayerNameO = snapshot.child(ConnectionID).child(Playerturn).child("player_name").getValue(String.class);
-        if( Playerturn.equals(PlayeruniqueID) ){
-            PlayerNameX = snapshot.child(ConnectionID).child(OpponentuniqueID).child("player_name").getValue(String.class);
-        }
-        else{
-            PlayerNameX = snapshot.child(ConnectionID).child(PlayeruniqueID).child("player_name").getValue(String.class);
-        }
-        Playerturn = PlayerNameO ;
+//        if( ConnectionID != null && PlayeruniqueID != null && OpponentuniqueID != null && Playerturn != null){
+           try {
+               PlayerName = snapshot.child(ConnectionID).child(PlayeruniqueID).child("player_name").getValue(String.class);
+               PlayerNameO = snapshot.child(ConnectionID).child(Playerturn).child("player_name").getValue(String.class);
+               if( Playerturn.equals(PlayeruniqueID) ){
+                   PlayerNameX = snapshot.child(ConnectionID).child(OpponentuniqueID).child("player_name").getValue(String.class);
+               }
+               else{
+                   PlayerNameX = snapshot.child(ConnectionID).child(PlayeruniqueID).child("player_name").getValue(String.class);
+               }
+               Playerturn = PlayerNameO ;
+           }
+           catch (Error error){}
+
+//        }
         Intent Player = new Intent(MultiplayerActivity.this,GameActivity.class);
         Player.putExtra("gameMode",2);
         startActivity(Player);

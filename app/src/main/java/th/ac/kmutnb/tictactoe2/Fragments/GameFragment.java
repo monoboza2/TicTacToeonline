@@ -77,9 +77,10 @@ public class GameFragment extends Fragment {
                 reset();
                 if(GameActivity.gameMode == 2){
                     MultiplayerActivity.Playerturn = MultiplayerActivity.PlayerNameO ;
-                    MultiplayerActivity.databaseReference.child("score").child(MultiplayerActivity.ConnectionID).child("winner").setValue("");
-                    MultiplayerActivity.databaseReference.child("board").child(MultiplayerActivity.ConnectionID).setValue(-1);
-                    MultiplayerActivity.databaseReference.child("turn").child(MultiplayerActivity.ConnectionID).setValue(MultiplayerActivity.Playerturn);
+
+                    MultiplayerActivity.databaseReference.child("game").child(MultiplayerActivity.ConnectionID).child("score").child("winner").setValue("");
+                    MultiplayerActivity.databaseReference.child("game").child(MultiplayerActivity.ConnectionID).child("board").setValue(-1);
+                    MultiplayerActivity.databaseReference.child("game").child(MultiplayerActivity.ConnectionID).child("turn").setValue(MultiplayerActivity.Playerturn);
                 }
             }
         });
@@ -89,7 +90,16 @@ public class GameFragment extends Fragment {
                 reset();
                 getFragmentManager().popBackStack();
                 //remove connection database
-                MultiplayerActivity.databaseReference.child("connections").child(MultiplayerActivity.ConnectionID).removeValue();
+                if(GameActivity.gameMode == 2){
+                    MultiplayerActivity.databaseReference.child("game").child(MultiplayerActivity.ConnectionID).child("turn").removeEventListener(MultiplayerActivity.turnEventListener);
+                    MultiplayerActivity.databaseReference.child("game").child(MultiplayerActivity.ConnectionID).child("score").removeEventListener(MultiplayerActivity.scoreEventListener);
+                    MultiplayerActivity.databaseReference.child("connections").child(MultiplayerActivity.ConnectionID).child(MultiplayerActivity.PlayeruniqueID).child("status").setValue("disconnect");
+                    MultiplayerActivity.opponentfound = false;
+                }
+                //                try {
+//                    MultiplayerActivity.databaseReference.child("connections").child(MultiplayerActivity.ConnectionID).getRef().removeValue();
+//                }
+//                catch (Error error){}
 
                 Intent itn = new Intent( getActivity(),MainActivity.class);
                 startActivity(itn);
@@ -103,35 +113,38 @@ public class GameFragment extends Fragment {
     public void onStart(){
         super.onStart();
         if(GameActivity.gameMode == 2 ){
-            MultiplayerActivity.databaseReference.child("board").child(MultiplayerActivity.ConnectionID).setValue(-1);
-            MultiplayerActivity.databaseReference.child("turn").child(MultiplayerActivity.ConnectionID).setValue(MultiplayerActivity.Playerturn);
-            MultiplayerActivity.databaseReference.child("turn").child(MultiplayerActivity.ConnectionID).addValueEventListener(new ValueEventListener() {
+            MultiplayerActivity.turnEventListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    MultiplayerActivity.Playerturn = snapshot.getValue(String.class);
-                    //turn change
-                    if(snapshot.getValue(String.class).equals(MultiplayerActivity.PlayerNameO)){
-                        GameFragment.textTurn.setText("turn of O");
-                    }
-                    else{
-                        GameFragment.textTurn.setText("turn of X");
+                    if(MultiplayerActivity.PlayerNameO != null){
+                        MultiplayerActivity.Playerturn = snapshot.getValue(String.class);
+                        //turn change
+                        if(snapshot.getValue(String.class) != null){
+                            if(snapshot.getValue(String.class).equals(MultiplayerActivity.PlayerNameO)){
+                                GameFragment.textTurn.setText("turn of O");
+                            }
+                            else{
+                                GameFragment.textTurn.setText("turn of X");
+                            }
+                        }
                     }
                 }
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
 
                 }
-            });
-
-            MultiplayerActivity.databaseReference.child("score").child(MultiplayerActivity.ConnectionID).child(MultiplayerActivity.PlayerNameO).setValue(GameActivity.scoreO);
-            MultiplayerActivity.databaseReference.child("score").child(MultiplayerActivity.ConnectionID).child(MultiplayerActivity.PlayerNameX).setValue(GameActivity.scoreX);
-            MultiplayerActivity.databaseReference.child("score").child(MultiplayerActivity.ConnectionID).child("winner").setValue("");
-
-            MultiplayerActivity.databaseReference.child("score").child(MultiplayerActivity.ConnectionID).addValueEventListener(new ValueEventListener() {
+            };
+            MultiplayerActivity.scoreEventListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    GameActivity.scoreO = snapshot.child(MultiplayerActivity.PlayerNameO).getValue(Integer.class);
-                    GameActivity.scoreX = snapshot.child(MultiplayerActivity.PlayerNameX).getValue(Integer.class);
+                    if( MultiplayerActivity.PlayerNameO != null && MultiplayerActivity.PlayerNameX != null){
+                        if(snapshot.child(MultiplayerActivity.PlayerNameO).getValue(Integer.class) != null){
+                            GameActivity.scoreO = snapshot.child(MultiplayerActivity.PlayerNameO).getValue(Integer.class);
+                        }
+                        if(snapshot.child(MultiplayerActivity.PlayerNameX).getValue(Integer.class) != null){
+                            GameActivity.scoreX = snapshot.child(MultiplayerActivity.PlayerNameX).getValue(Integer.class);
+                        }
+                    }
                     GameFragment.text_win_o.setText(": "+GameActivity.scoreO);
                     GameFragment.text_win_x.setText(": "+GameActivity.scoreX);
 
@@ -161,7 +174,46 @@ public class GameFragment extends Fragment {
                 public void onCancelled(@NonNull DatabaseError error) {
 
                 }
+            };
+            MultiplayerActivity.databaseReference.child("game").child(MultiplayerActivity.ConnectionID).child("board").setValue(-1);
+            MultiplayerActivity.databaseReference.child("game").child(MultiplayerActivity.ConnectionID).child("turn").setValue(MultiplayerActivity.Playerturn);
+            MultiplayerActivity.databaseReference.child("game").child(MultiplayerActivity.ConnectionID).child("turn").addValueEventListener(MultiplayerActivity.turnEventListener);
+            if(MultiplayerActivity.ConnectionID != null && MultiplayerActivity.PlayerNameO != (null) && MultiplayerActivity.PlayerNameX != null){
+                MultiplayerActivity.databaseReference.child("game").child(MultiplayerActivity.ConnectionID).child("score").child(MultiplayerActivity.PlayerNameO).setValue(GameActivity.scoreO);
+                MultiplayerActivity.databaseReference.child("game").child(MultiplayerActivity.ConnectionID).child("score").child(MultiplayerActivity.PlayerNameX).setValue(GameActivity.scoreX);
+                MultiplayerActivity.databaseReference.child("game").child(MultiplayerActivity.ConnectionID).child("score").child("winner").setValue("");
+            }
+
+
+            MultiplayerActivity.databaseReference.child("game").child(MultiplayerActivity.ConnectionID).child("score").addValueEventListener(MultiplayerActivity.scoreEventListener);
+            MultiplayerActivity.databaseReference.child("connections").child(MultiplayerActivity.ConnectionID).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    Log.i("Online","check?? : " +snapshot.child(MultiplayerActivity.OpponentuniqueID).child("status").getValue(String.class));
+                    if(snapshot.child(MultiplayerActivity.OpponentuniqueID).child("status").getValue(String.class) != null && snapshot.child(MultiplayerActivity.PlayeruniqueID).child("status").getValue(String.class) != null ){
+                        if(snapshot.child(MultiplayerActivity.OpponentuniqueID).child("status").getValue(String.class).equals("disconnect") && snapshot.child(MultiplayerActivity.PlayeruniqueID).child("status").getValue(String.class).equals("disconnect")){
+                            Log.i("Online","disconnect all");
+                            MultiplayerActivity.databaseReference.child("game").child(MultiplayerActivity.ConnectionID).child("turn").getRef().removeEventListener(MultiplayerActivity.turnEventListener);
+                            MultiplayerActivity.databaseReference.child("game").child(MultiplayerActivity.ConnectionID).child("score").getRef().removeEventListener(MultiplayerActivity.scoreEventListener);
+                            MultiplayerActivity.databaseReference.child("connections").getRef().removeEventListener(MultiplayerActivity.connectionEventListener);
+                            MultiplayerActivity.databaseReference.child("connections").child(MultiplayerActivity.ConnectionID).getRef().removeValue();
+                            Log.i("Online",MultiplayerActivity.databaseReference.get()+" <--data");
+                            MultiplayerActivity.databaseReference.child("connections").removeEventListener(this);
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
             });
+            if(MultiplayerActivity.PlayerNameO == null){
+                MultiplayerActivity.PlayerNameO = "Disconnected";
+            }
+            if(MultiplayerActivity.PlayerNameX == null){
+                MultiplayerActivity.PlayerNameX = "Disconnected";
+            }
             GameFragment.PlayerNameO.setText(MultiplayerActivity.PlayerNameO);
             GameFragment.PlayerNameX.setText(MultiplayerActivity.PlayerNameX);
         }

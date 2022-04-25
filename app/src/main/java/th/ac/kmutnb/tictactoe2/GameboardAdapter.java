@@ -86,7 +86,7 @@ public class GameboardAdapter extends RecyclerView.Adapter<GameboardAdapter.View
 
 
     public void playWithOnline(ViewHolder holder,int position){
-        MultiplayerActivity.databaseReference.child("board").child(MultiplayerActivity.ConnectionID).addValueEventListener(new ValueEventListener() {
+        MultiplayerActivity.databaseReference.child("game").child(MultiplayerActivity.ConnectionID).child("board").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.getValue(Integer.class) >= 0 && snapshot.getValue(Integer.class) <=8){
@@ -104,8 +104,7 @@ public class GameboardAdapter extends RecyclerView.Adapter<GameboardAdapter.View
                         if (checkWin()){
                             win();
                         }
-
-                        MultiplayerActivity.databaseReference.child("turn").child(MultiplayerActivity.ConnectionID).setValue(MultiplayerActivity.Playerturn);
+                        MultiplayerActivity.databaseReference.child("game").child(MultiplayerActivity.ConnectionID).child("turn").setValue(MultiplayerActivity.Playerturn);
                     }
                 }
             }
@@ -119,7 +118,7 @@ public class GameboardAdapter extends RecyclerView.Adapter<GameboardAdapter.View
             @Override
             public void onClick(View view) {
                 if(MultiplayerActivity.Playerturn.equals(MultiplayerActivity.PlayerName)){
-                    MultiplayerActivity.databaseReference.child("board").child(MultiplayerActivity.ConnectionID).setValue(position);
+                    MultiplayerActivity.databaseReference.child("game").child(MultiplayerActivity.ConnectionID).child("board").setValue(position);
                 }
             }
         });
@@ -323,13 +322,13 @@ public class GameboardAdapter extends RecyclerView.Adapter<GameboardAdapter.View
         }
         GameFragment.text_win.setText("win");
         if(GameActivity.gameMode == 2){
-            MultiplayerActivity.databaseReference.child("score").child(MultiplayerActivity.ConnectionID).child(MultiplayerActivity.PlayerNameO).setValue(GameActivity.scoreO);
-            MultiplayerActivity.databaseReference.child("score").child(MultiplayerActivity.ConnectionID).child(MultiplayerActivity.PlayerNameX).setValue(GameActivity.scoreX);
+            MultiplayerActivity.databaseReference.child("game").child(MultiplayerActivity.ConnectionID).child("score").child(MultiplayerActivity.PlayerNameO).setValue(GameActivity.scoreO);
+            MultiplayerActivity.databaseReference.child("game").child(MultiplayerActivity.ConnectionID).child("score").child(MultiplayerActivity.PlayerNameX).setValue(GameActivity.scoreX);
             if(winCharacter.equals("o")){
-                MultiplayerActivity.databaseReference.child("score").child(MultiplayerActivity.ConnectionID).child("winner").setValue(MultiplayerActivity.PlayerNameO);
+                MultiplayerActivity.databaseReference.child("game").child(MultiplayerActivity.ConnectionID).child("score").child("winner").setValue(MultiplayerActivity.PlayerNameO);
             }
             else{
-                MultiplayerActivity.databaseReference.child("score").child(MultiplayerActivity.ConnectionID).child("winner").setValue(MultiplayerActivity.PlayerNameX);
+                MultiplayerActivity.databaseReference.child("game").child(MultiplayerActivity.ConnectionID).child("score").child("winner").setValue(MultiplayerActivity.PlayerNameX);
             }
         }
     }
