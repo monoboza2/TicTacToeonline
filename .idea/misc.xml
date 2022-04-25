@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/After/Desktop/All-Data/Mobile project/tictactoeonline/app/src/main/res/layout/fragment_game.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/After/Desktop/All-Data/Mobile/test/tictactoeonline/app/src/main/res/layout/activity_game.xml" value="0.27355072463768115" />
+        <entry key="..\:/Users/After/Desktop/All-Data/Mobile/test/tictactoeonline/app/src/main/res/layout/activity_leaderboard.xml" value="0.27355072463768115" />
+        <entry key="..\:/Users/After/Desktop/All-Data/Mobile/test/tictactoeonline/app/src/main/res/layout/activity_main.xml" value="0.5" />
+        <entry key="..\:/Users/After/Desktop/All-Data/Mobile/test/tictactoeonline/app/src/main/res/layout/fragment_game.xml" value="0.27355072463768115" />
+        <entry key="..\:/Users/After/Desktop/All-Data/Mobile/test/tictactoeonline/app/src/main/res/layout/leader_list.xml" value="0.5" />
+        <entry key="..\:/Users/After/Desktop/All-Data/Mobile/tictactoeonline/app/src/main/res/drawable/bg_cell_boardgame.xml" value="0.22135416666666666" />
+        <entry key="..\:/Users/After/Desktop/All-Data/Mobile/tictactoeonline/app/src/main/res/layout/activity_game.xml" value="0.33" />
+        <entry key="..\:/Users/After/Desktop/All-Data/Mobile/tictactoeonline/app/src/main/res/layout/activity_main.xml" value="0.26721014492753625" />
+        <entry key="..\:/Users/After/Desktop/All-Data/Mobile/tictactoeonline/app/src/main/res/layout/activity_singleplayer.xml" value="0.26721014492753625" />
+        <entry key="..\:/Users/After/Desktop/All-Data/Mobile/tictactoeonline/app/src/main/res/layout/cell.xml" value="0.2608695652173913" />
+        <entry key="..\:/Users/After/Desktop/All-Data/Mobile/tictactoeonline/app/src/main/res/layout/fragment_game.xml" value="0.5" />
+        <entry key="..\:/Users/After/Desktop/All-Data/Mobile/tictactoeonline/app/src/main/res/layout/fragment_start.xml" value="0.2608695652173913" />
+        <entry key="..\:/Users/After/Desktop/All-Data/Mobile/tictactoeonline/app/src/main/res/layout/surrender.xml" value="0.33" />
+        <entry key="..\:/Users/After/Desktop/mobileTreeT/tictactoeonline/app/src/main/res/drawable/bg_cell_boardgame.xml" value="0.3828125" />
+        <entry key="..\:/Users/After/Desktop/mobileTreeT/tictactoeonline/app/src/main/res/layout/activity_game.xml" value="0.2658514492753623" />
+        <entry key="..\:/Users/After/Desktop/mobileTreeT/tictactoeonline/app/src/main/res/layout/activity_main.xml" value="0.27355072463768115" />
+        <entry key="..\:/Users/After/Desktop/mobileTreeT/tictactoeonline/app/src/main/res/layout/cell.xml" value="0.27355072463768115" />
+        <entry key="..\:/Users/After/Desktop/mobileTreeT/tictactoeonline/app/src/main/res/layout/fragment_game.xml" value="0.27355072463768115" />
+        <entry key="..\:/Users/After/Desktop/mobileTreeT/tictactoeonline/app/src/main/res/layout/fragment_start.xml" value="0.33" />
+        <entry key="..\:/Users/Incrusioz/AndroidStudioProjects/tictactoe2/app/src/main/res/layout/activity_login.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Incrusioz/AndroidStudioProjects/tictactoe2/app/src/main/res/layout/activity_main.xml" value="0.24365942028985507" />
+        <entry key="..\:/Users/Incrusioz/AndroidStudioProjects/tictactoe2/app/src/main/res/layout/activity_multiplayer.xml" value="0.18177083333333333" />
+        <entry key="..\:/Users/Incrusioz/AndroidStudioProjects/tictactoe2/app/src/main/res/layout/activity_online.xml" value="0.18177083333333333" />
+        <entry key="..\:/Users/Incrusioz/AndroidStudioProjects/tictactoe2/app/src/main/res/layout/activity_register.xml" value="0.264" />
+        <entry key="..\:/Users/Incrusioz/AndroidStudioProjects/tictactoe2/app/src/main/res/layout/cell.xml" value="0.12291666666666666" />
+        <entry key="..\:/Users/Incrusioz/Desktop/Tictactoe/last/tictactoeonline-GameVersion/app/src/main/res/layout/activity_game.xml" value="0.1793478260869565" />
+        <entry key="..\:/Users/Incrusioz/Desktop/Tictactoe/last/tictactoeonline-GameVersion/app/src/main/res/layout/activity_leaderboard.xml" value="0.264" />
+        <entry key="..\:/Users/Incrusioz/Desktop/Tictactoe/last/tictactoeonline-GameVersion/app/src/main/res/layout/activity_login.xml" value="0.1793478260869565" />
+        <entry key="..\:/Users/Incrusioz/Desktop/Tictactoe/last/tictactoeonline-GameVersion/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Incrusioz/Desktop/Tictactoe/last/tictactoeonline-GameVersion/app/src/main/res/layout/activity_multiplayer.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Incrusioz/Desktop/Tictactoe/last/tictactoeonline-GameVersion/app/src/main/res/layout/activity_online.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Incrusioz/Desktop/Tictactoe/last/tictactoeonline-GameVersion/app/src/main/res/layout/leader_list.xml" value="0.264" />
+        <entry key="..\:/Users/Incrusioz/Desktop/Tictactoe/tictactoeonline/app/src/main/res/layout/activity_login.xml" value="0.4" />
+        <entry key="..\:/Users/Incrusioz/Desktop/Tictactoe/tictactoeonline/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Incrusioz/Desktop/Tictactoe/tictactoeonline/app/src/main/res/layout/activity_multiplayer.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Incrusioz/Desktop/Tictactoe/tictactoeonline/app/src/main/res/layout/activity_register.xml" value="0.264" />
+        <entry key="..\:/Users/Incrusioz/Desktop/Tictactoe/tictactoeonline/app/src/main/res/layout/activity_singleplayer.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Incrusioz/Desktop/Tictactoe/tictactoeonline/app/src/main/res/layout/activity_test.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Incrusioz/Desktop/Tictactoe/tictactoeonline/app/src/main/res/layout/fragment_game.xml" value="0.264" />
+        <entry key="..\:/Users/Incrusioz/Desktop/Tictactoe/tictactoeonline/app/src/main/res/layout/fragment_start.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Incrusioz/Desktop/Tictactoe/tictactoeonline/app/src/main/res/layout/surrender.xml" value="0.25416666666666665" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
